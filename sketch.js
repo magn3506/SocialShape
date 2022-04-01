@@ -1,3 +1,9 @@
+let mgtt_payload;
+
+let oriAlpha;
+let oriBeta;
+let oriGamma;
+
 const device_one = {
   x1: 30,
   y1: 75
@@ -14,6 +20,9 @@ const device_three = {
 }
 
 
+window.addEventListener("deviceorientation", handleOrientation, true);
+
+
 // triangle(30, 75, 58, 20, 86, 75);
 //triangle(x1, y1, x2, y2, x3, y3)
 
@@ -28,6 +37,15 @@ function draw() {
   const {x2, y2} = device_two
   const {x3, y3} = device_three
 
-  fill("red")
+  fill("green")
   triangle(x1, y1, x2, y2, x3, y3)
+  fill("red")
+  ellipse(50, 50, oriAlpha)
+
+}
+
+function handleOrientation(e) {
+  console.log(e)
+  oriAlpha = e.alpha;
+  oriBeta = e.beta;
 }
