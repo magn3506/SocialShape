@@ -1,51 +1,43 @@
-let mgtt_payload;
-
-let oriAlpha;
-let oriBeta;
-let oriGamma;
-
-const device_one = {
-  x1: 30,
-  y1: 75
-}
-
-const device_two = {
-  x2: 58,
-  y2: 20
-}
-
-const device_three = {
-  x3: 86,
-  y3: 75
-}
-
-
-window.addEventListener("deviceorientation", handleOrientation, true);
-
-
-// triangle(30, 75, 58, 20, 86, 75);
-//triangle(x1, y1, x2, y2, x3, y3)
+let alpha, beta, gamma;
+let xpos, ypos;
 
 function setup() {
-  createCanvas(400, 400);
+  // set canvas size
+createCanvas(400, 400);
+
+  // default values
+  xpos = 200;
+  ypos = 200;
+  alpha = 0;
+  beta = 0;
+  gamma = 0;
 }
 
 function draw() {
-  background(220);
+  // set background color to white
+  background(255);
 
-  const {x1, y1} = device_one
-  const {x2, y2} = device_two
-  const {x3, y3} = device_three
+  // display letiables
+  fill(100);
+  noStroke();
+  text("alpha: " + alpha, 25, 25);
+  text("beta: " + beta, 25, 50);
+  fill(255, 0, 0);
+  text("gamma: " + gamma, 25, 75);
 
-  fill("green")
-  triangle(x1, y1, x2, y2, x3, y3)
-  fill("red")
-  ellipse(50, 50, oriAlpha)
-
+  push();
+  translate(200, 200);
+  rotate(radians(gamma));
+  fill(255, 0, 0);
+  rect(-40, -40, 80, 80);
+  fill(0);
+  rect(-40, 40, 80, 5);
+  pop();
 }
 
-function handleOrientation(e) {
-  console.log(e)
-  oriAlpha = e.alpha;
-  oriBeta = e.beta;
-}
+// accelerometer Data
+window.addEventListener('deviceorientation', function (e) {
+  alpha = e.alpha;
+  beta = e.beta;
+  gamma = e.gamma;
+});
