@@ -1,36 +1,20 @@
-// The numbers are in decimal degrees format
-// and range from -90 to 90 for latitude
-//and -180 to 180 for longitude.
+// Global
+let lastDataObj;
 
 // DATA
-const device_one = {
-  latitude: 79.88203386173558,
-  longitude: -47.038490531567334,
+const data = {
+  id: Math.random() * 100 + "ef",
+  latitude: Math.random() * 50,
+  longitude: Math.random() * 50,
 };
 
-const device_two = {
-  latitude: 64.9421944390964,
-  longitude: -17.85880371753384,
-};
-const device_three = {
-  latitude: 21.330390886510195,
-  longitude: -103.99161419269294,
-};
-
-const device_four = {
-  latitude: 68,
-  longitude: 120,
-};
-
-
-const divices = [device_one, device_two, device_three, device_four];
 
 // Config
-const canvasSize = {width: 500, height: 500}
+const canvasSize = { width: 500, height: 500 };
 
 function mapCordinatesToCanvas(lat, long) {
   // ? This function will map the values of cordinates to the size of
-  
+
   // Range for latitude -90 - 90
   let lat_start = -90;
   let lat_stop = 90;
@@ -65,24 +49,62 @@ function mapCordinatesToCanvas(lat, long) {
 
 function setup() {
   createCanvas(canvasSize.width, canvasSize.height);
-  background(200);
+  background(240)
+  publishAndSubsribeTimeLoop();
+}
+
+function publishAndSubsribeTimeLoop() {
+  if(!revieced_payload) {
+    // if recieved payload is NOT-true, send initial data and set lastDataObj
+    // OBS: this block should only run once every instance
+    revieced_payload = []
+    // set lastDataObj to be current data
+    lastDataObj = data;
+    // set lastDataObj to be current data
+    sendMessage(revieced_payload)
+    console.log("revieced_payload is not true")
+  } else {
+    // ? If revieced data is true ?
+    // set lastDataObj to be current data
+    lastDataObj = data
+    // Push currect data to revieced_payload
+    revieced_payload.push(data)
+    // Send data to broker
+    sendMessage(revieced_payload)
+    console.log("revieced_payload is true")
+  }
+  setTimeout(publishAndSubsribeTimeLoop, 3000);
 }
 
 function draw() {
+   // Remove lastDataObj from revieced_payload
   
-  // Create shape form each divice position
-  beginShape();
-  divices.forEach((device) => {
-    let device_position = mapCordinatesToCanvas(
-      device.latitude,
-      device.longitude
-    );
-    vertex(device_position.posX, device_position.posY);
+    revieced_payload.filter(item => {
+      return item.id !== lastDataObj.id
+    })
+  
+  createShapeFromDevicesData(revieced_payload)
+}
 
-    let circleDiamiter = 10;
-    fill("black");
-    circle(device_position.posX, device_position.posY, circleDiamiter);
-    fill("white");
-  });
+function createShapeFromDevicesData(devicesData) {
+  console.log(devicesData)
+  console.log(lastDataObj)
+  clear();
+  background(240)
+
+  // BEGIN SHAPE
+  beginShape();
+    // Create shape form each divice position
+    devicesData.forEach((device) => {
+      let device_position = mapCordinatesToCanvas(
+        device.latitude,
+        device.longitude
+      );
+      vertex(device_position.posX, device_position.posY);
+      let circleDiamiter = 10;
+      fill("black");
+      circle(device_position.posX, device_position.posY, circleDiamiter);
+      fill("white");
+    });
   endShape(CLOSE);
 }
