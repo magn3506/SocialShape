@@ -1,3 +1,4 @@
+let mgtt_payload;
 
 const myTopic ="socialShape";  //YOU MUST CHANGE THIS!
 
@@ -23,7 +24,6 @@ function sendMessage(msg)
 client.on('message', function(topic, message) 
 {
  let msg=JSON.parse(message); //Decode JSON string
- console.log(msg);
  mgtt_payload = msg;
  // do your thing here when a message arrives--------
 });

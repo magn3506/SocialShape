@@ -7,12 +7,11 @@ function draw() {
 
   if (mouseIsPressed === true) {
     fill("blue")
-    ellipse(mouseX, mouseY, 12)
 
   
     const device_one = {
-      x1: 30,
-      y1: 75
+      longitude: 55.931648054910305, 
+      latitude: 12.311291354201092
     }
 
     sendMessage(device_one)
