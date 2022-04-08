@@ -19,11 +19,11 @@ function sendMessage(msg)
 }
 
 
-
 // --- RECEIVING MESSAGE --------------------------------------
-client.on('message', function(topic, message) 
+client.on('message', function(myTopic, message) 
 {
- let msg=JSON.parse(message); //Decode JSON string
- revieced_payload = msg;
- // do your thing here when a message arrives--------
+  let msg = JSON.parse(message); //Decode JSON string
+  // do your thing here when a message arrives--------
+  revieced_payload = msg
+
 });

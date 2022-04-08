@@ -8,6 +8,7 @@ const data = {
   longitude: Math.random() * 50,
 };
 
+
 // Config
 const canvasSize = { width: 500, height: 500 };
 
@@ -49,9 +50,7 @@ function mapCordinatesToCanvas(lat, long) {
 function setup() {
   createCanvas(canvasSize.width, canvasSize.height);
   background(240)
-  createShapeFromDevicesData([data])
   publishAndSubsribeTimeLoop();
-  
 }
 
 function publishAndSubsribeTimeLoop() {
@@ -64,10 +63,6 @@ function publishAndSubsribeTimeLoop() {
     // set lastDataObj to be current data
     sendMessage(revieced_payload)
     console.log("revieced_payload is not true")
-    revieced_payload.filter(item => {
-      return item.id !== lastDataObj.id
-    })
-    createShapeFromDevicesData(revieced_payload)
   } else {
     // ? If revieced data is true ?
     // set lastDataObj to be current data
@@ -77,30 +72,30 @@ function publishAndSubsribeTimeLoop() {
     // Send data to broker
     sendMessage(revieced_payload)
     console.log("revieced_payload is true")
+  }
+  setTimeout(publishAndSubsribeTimeLoop, 3000);
+}
 
+function draw() {
+   // Remove lastDataObj from revieced_payload
+  
     revieced_payload.filter(item => {
       return item.id !== lastDataObj.id
     })
-    createShapeFromDevicesData(revieced_payload)
-    
-  }
-
-
-  setTimeout(publishAndSubsribeTimeLoop, 100);
+  
+  createShapeFromDevicesData(revieced_payload)
 }
 
-
-
-
- 
-
 function createShapeFromDevicesData(devicesData) {
+  console.log(devicesData)
+  console.log(lastDataObj)
+  clear();
   background(240)
+
   // BEGIN SHAPE
-  noFill();
-  beginShape(TESS);
-      // Create shape form each divice position
-      devicesData.forEach((device) => {
+  beginShape();
+    // Create shape form each divice position
+    devicesData.forEach((device) => {
       let device_position = mapCordinatesToCanvas(
         device.latitude,
         device.longitude
@@ -113,8 +108,3 @@ function createShapeFromDevicesData(devicesData) {
     });
   endShape(CLOSE);
 }
-
-
-
-
-
