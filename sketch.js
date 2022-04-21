@@ -39,13 +39,6 @@ function createShapeFromDevicesData(devicesData) {
       device.longitude
     );
 
-    if(device_position.posX > canvasSize.width) {
-      console.log("larger")
-      console.log("canvasWidth: ", canvasSize.width)
-      console.log("devicePosInCanvas: ", device_position.posX)
-    }
-
-
     stroke("yellow");
     strokeWeight(1);
     vertex(device_position.posX, device_position.posY);
