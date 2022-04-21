@@ -71,7 +71,7 @@ function mapCordinatesToCanvas(lat, long) {
     lat_start,
     lat_stop,
     target_start_height,
-    target_stop_width
+    target_stop_height
   );
   const longitudeToCanvas = map(
     long,
