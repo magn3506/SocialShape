@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Device 1</title>
+    <title>Device</title>
     <style>
       body {
         padding: 0;
@@ -15,28 +15,29 @@
     <script
       language="javascript"
       type="text/javascript"
-      src="../../libraries/p5.min.js"
+      src="../libraries/p5.min.js"
     ></script>
     <script
       language="javascript"
       type="text/javascript"
-      src="../../libraries/mqtt.min.js"
+      src="../libraries/mqtt.min.js"
     ></script>
     <script
       language="javascript"
       type="text/javascript"
-      src="../../config/itu_mqtt_config.js"
+      src="../mqtt/itu_mqtt_config.js"
     ></script>
     <script
       language="javascript"
       type="text/javascript"
-      src="../../config/my_mqtt_functions.js"
+      src="../mqtt/my_mqtt_functions.js"
     ></script>
   </head>
 
   <body>
     <main>
-      <h1>DEVICE</h1>
+      <h1 id="title">DEVICE</h1>
+      <p>A randomly generated longitude and latitude position will be send every 5 sek. To break automatic loop see index.js. Use button to manually send position</p>
       <button id="button">Send Position</button>
     </main>
     <script src="index.js"></script>
