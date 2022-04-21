@@ -39,6 +39,7 @@ function createShapeFromDevicesData(devicesData) {
       device.longitude
     );
 
+
     stroke("yellow");
     strokeWeight(1);
     vertex(device_position.posX, device_position.posY);
@@ -78,5 +79,5 @@ function mapCordinatesToCanvas(lat, long) {
     canvasSize.width
   );
 
-  return { posX: latitudeToCanvas, posY: longitudeToCanvas };
+  return { posX: longitudeToCanvas, posY: latitudeToCanvas };
 }
