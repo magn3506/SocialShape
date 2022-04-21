@@ -1,6 +1,5 @@
 const https = require('https');
 const fs = require('fs');
-console.log("HELLO")
 
 const options = {
   key: fs.readFileSync('./key.pem'),
