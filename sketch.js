@@ -4,8 +4,8 @@ let canvasSize;
 
 function setup() {
   // Set canvasize to be the width and hight of the window
-  canvasSize = { width: windowWidth, height: windowHeight };
-  createCanvas(windowWidth, windowHeight);
+  canvasSize = { width: windowWidth / 2, height: windowHeight / 2};
+  createCanvas(canvasSize.width, canvasSize.height);
 }
 
 function draw() {
@@ -31,11 +31,21 @@ function createShapeFromDevicesData(devicesData) {
 
   // Create shape form each divice position
   devicesData.forEach((device) => {
+
+
     // Map position of device to position on canvas
     let device_position = mapCordinatesToCanvas(
       device.latitude,
       device.longitude
     );
+
+    if(device_position.posX > canvasSize.width) {
+      console.log("larger")
+      console.log("canvasWidth: ", canvasSize.width)
+      console.log("devicePosInCanvas: ", device_position.posX)
+    }
+
+
     stroke("yellow");
     strokeWeight(1);
     vertex(device_position.posX, device_position.posY);
@@ -58,27 +68,21 @@ function mapCordinatesToCanvas(lat, long) {
   let long_start = -180;
   let long_stop = 180;
 
-  // Canvas size is target range
-  let target_start_width = 0;
-  let target_stop_width = canvasSize.width;
-  let target_start_height = 0;
-  let target_stop_height = canvasSize.height;
-
   // Map latitude and longitude to canvas dimensions
   // map(value, start1, stop1, start2, stop2, [withinBounds]) - Docs
   const latitudeToCanvas = map(
     lat,
     lat_start,
     lat_stop,
-    target_start_height,
-    target_stop_height
+    0,
+    canvasSize.height
   );
   const longitudeToCanvas = map(
     long,
     long_start,
     long_stop,
-    target_start_width,
-    target_stop_width
+    0,
+    canvasSize.width
   );
 
   return { posX: latitudeToCanvas, posY: longitudeToCanvas };
