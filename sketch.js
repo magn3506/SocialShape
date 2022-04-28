@@ -1,15 +1,21 @@
 // GLOBAL VARIABLE
 let canvasSize;
-
+let maxDiameter;
+let theta;
 
 function setup() {
   // Set canvasize to be the width and hight of the window
   canvasSize = { width: windowWidth / 2, height: windowHeight / 2};
   createCanvas(canvasSize.width, canvasSize.height);
+
+  maxDiameter = 10; 
+	theta = 10;
+ 
 }
 
 function draw() {
   createShapeFromDevicesData(recieved_payload); // ? recieved_payload is updated in my_mqtt_functions.js
+  drawHearts(recieved_payload);
 }
 
 
@@ -24,32 +30,51 @@ function createShapeFromDevicesData(devicesData) {
 
   // BEGIN SHAPE
   beginShape();
-  devicesData.sort(function (a, b) {
-    if (a.longitude == b.longitude) return a.latitude - b.latitude;
-    return a.latitude - b.latitude;
-  });
 
   // Create shape form each divice position
   devicesData.forEach((device) => {
-
-
     // Map position of device to position on canvas
     let device_position = mapCordinatesToCanvas(
       device.latitude,
       device.longitude
     );
 
-
     stroke("yellow");
     strokeWeight(1);
     vertex(device_position.posX, device_position.posY);
     fill("#00E091");
-    let circleDiamiter = 10;
-    circle(device_position.posX, device_position.posY, circleDiamiter);
-    fill("#FF8370");
   });
   endShape(CLOSE);
 }
+
+
+function drawHearts(devicesData) {
+  devicesData.forEach((device) => {
+    let device_position = mapCordinatesToCanvas(
+      device.latitude,
+      device.longitude
+    );
+    heart(device_position.posX, device_position.posY, 20 )
+  });
+}
+
+function heart(x, y, size) {
+
+  size = 10 + sin(theta) * maxDiameter;
+
+  // make theta keep getting bigger
+  // you can play with this number to change the speed
+  theta += .01; 
+
+  circle(x, y, size)
+
+  // beginShape()
+  // vertex(x, y);
+  // bezierVertex(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+  // bezierVertex(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+  // endShape(CLOSE)
+}
+
 
 // This function maps and calculated the correct mapping betweeen longitude, and latitude cprdinates to the canvas.
 function mapCordinatesToCanvas(lat, long) {
@@ -81,3 +106,6 @@ function mapCordinatesToCanvas(lat, long) {
 
   return { posX: longitudeToCanvas, posY: latitudeToCanvas };
 }
+
+
+
