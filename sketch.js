@@ -14,19 +14,23 @@ function setup() {
 }
 
 function draw() {
-  createShapeFromDevicesData(recieved_payload); // ? recieved_payload is updated in my_mqtt_functions.js
-  drawHearts(recieved_payload);
+    // Set background color of canvas
+    background("#00B1B0");
+
+    const sortedData = recieved_payload.sort((a, b) => b.timeStamp - a.timeStamp)
+
+
+    // Draw equator
+    stroke("lightBlue");
+    line(0, canvasSize.height / 2, canvasSize.width,  canvasSize.height / 2)
+  createShapeFromDevicesData(sortedData); // ? recieved_payload is updated in my_mqtt_functions.js
+  drawHearts(sortedData);
 }
 
 
 // This function is the one created the custom shape on the canvas by iterating over the list of devicesData and creating a point on the canvas.
 function createShapeFromDevicesData(devicesData) {
-  // Set background color of canvas
-  background("#00B1B0");
 
-  // Draw equator
-  stroke("lightBlue");
-  line(0, canvasSize.height / 2, canvasSize.width,  canvasSize.height / 2)
 
   // BEGIN SHAPE
   beginShape();
@@ -42,23 +46,23 @@ function createShapeFromDevicesData(devicesData) {
     stroke("yellow");
     strokeWeight(1);
  
-    if(device.oriA && device.oriB && device.oriG){
+    if(device.oriB && device.oriG){
 
-      let targetRange = 50;
+      let targetRange = 100;
       let oriAMap = map(device.oriA, -180, 180, 0, targetRange)
-      let oriBMap = map(device.oriB, -180, 180, 0, targetRange)
-      let oriGMap = map(device.oriG, -180, 180, 0, targetRange)
+      let oriBMap = map(device.oriB, 0, 360, 0, targetRange)
+      let oriGMap = map(device.oriG, 0, 180, 0, targetRange)
 
       let xCordinate = device_position.posX + oriGMap;
       let yCordinate = device_position.posY + oriBMap
-      vertex(xCordinate, yCordinate);
+      curveVertex(xCordinate, yCordinate);
       console.log("yess")
     } else {
       console.log("nooo")
-      vertex(device_position.posX, device_position.posY);
+      curveVertex(device_position.posX, device_position.posY);
     }
-
-    fill("#00E091");
+    noFill()
+    // fill("#00E091");
   });
   endShape(CLOSE);
 }
@@ -71,12 +75,12 @@ function drawHearts(devicesData) {
       device.longitude
     );
 
-    if(device.oriA && device.oriB && device.oriG){
+    if(device.oriB && device.oriG){
 
-      let targetRange = 50;
+      let targetRange = 100;
       let oriAMap = map(device.oriA, -180, 180, 0, targetRange)
-      let oriBMap = map(device.oriB, -180, 180, 0, targetRange)
-      let oriGMap = map(device.oriG, -180, 180, 0, targetRange)
+      let oriBMap = map(device.oriB, 0, 360, 0, targetRange)
+      let oriGMap = map(device.oriG, 0, 180, 0, targetRange)
 
       let xCordinate = device_position.posX + oriGMap;
       let yCordinate = device_position.posY + oriBMap

@@ -81,17 +81,20 @@ function setOrientation(e) {
   console.log("oriB: ", oriB);
   console.log("oriG: ", oriG);
 
-  position.oriA = oriA;
-  position.oriB = oriB;
-  position.oriG = oriG
+
+  oriBMapped = map(oriB, -180, 180, 0, 360)
+  oriGMapped = map(oriG, -90, 90, 0, 180)
+ 
+  position.oriB = oriBMapped;
+  position.oriG = oriGMapped;
 }
 
 function draw() {
   let x = 0;
   let y = 0;
-  if (oriA && oriB) {
-    x = map(oriG, -180, 180, 0, 200);
-    y = map(oriB, -180, 180, 0, 200);
+  if (oriB && oriG) {
+    x = map(oriG, 0, 180, 0, 200);
+    y = map(oriB, 0, 360, 0, 200);
   }
 
   ellipse(x, y, 10, 10);
