@@ -41,7 +41,23 @@ function createShapeFromDevicesData(devicesData) {
 
     stroke("yellow");
     strokeWeight(1);
-    vertex(device_position.posX, device_position.posY);
+ 
+    if(device.oriA && device.oriB && device.oriG){
+
+      let targetRange = 50;
+      let oriAMap = map(device.oriA, -180, 180, 0, targetRange)
+      let oriBMap = map(device.oriB, -180, 180, 0, targetRange)
+      let oriGMap = map(device.oriG, -180, 180, 0, targetRange)
+
+      let xCordinate = device_position.posX + oriGMap;
+      let yCordinate = device_position.posY + oriBMap
+      vertex(xCordinate, yCordinate);
+      console.log("yess")
+    } else {
+      console.log("nooo")
+      vertex(device_position.posX, device_position.posY);
+    }
+
     fill("#00E091");
   });
   endShape(CLOSE);
@@ -54,7 +70,23 @@ function drawHearts(devicesData) {
       device.latitude,
       device.longitude
     );
-    heart(device_position.posX, device_position.posY, 20 )
+
+    if(device.oriA && device.oriB && device.oriG){
+
+      let targetRange = 50;
+      let oriAMap = map(device.oriA, -180, 180, 0, targetRange)
+      let oriBMap = map(device.oriB, -180, 180, 0, targetRange)
+      let oriGMap = map(device.oriG, -180, 180, 0, targetRange)
+
+      let xCordinate = device_position.posX + oriGMap;
+      let yCordinate = device_position.posY + oriBMap
+      heart(xCordinate, yCordinate, 20 )
+      console.log("yess")
+    } else {
+      console.log("nooo")
+      heart(device_position.posX, device_position.posY, 20 )
+    }
+
   });
 }
 

@@ -25,7 +25,7 @@ client.on("message", function (myTopic, message) {
   };
 
   recieved_payload.push(msg);
-
+  if(msg) {console.log(msg)}
 });
 
 // Loop though array and removes all deviceData matching the ID of the new incomming device data
